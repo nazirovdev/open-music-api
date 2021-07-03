@@ -38,6 +38,33 @@ class SongsService {
 
         return song;
     }
+
+    editSongById(id, { title, year, performer, genre, duration }) {
+        const index = this._songs.findIndex((song) => song.id === id);
+
+        if (index === -1) {
+            throw new Error('gagal mengupdate song');
+        }
+        this._songs[index] = {
+            ...this._songs[index],
+            title,
+            year: parseInt(year),
+            performer,
+            genre,
+            duration,
+            updatedAt: new Date().toISOString()
+        }
+    }
+
+    deleteSongById(id) {
+        const index = this._songs.findIndex((song) => song.id === id);
+
+        if (index === -1) {
+            throw new Error('Lagu gagal dihapus');
+        }
+
+        this._songs.splice(index, 1);
+    }
 }
 
 module.exports = SongsService;
