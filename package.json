@@ -1,0 +1,25 @@
+{
+  "name": "open-music-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nazirovdev/open-music-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nazirovdev/open-music-api/issues"
+  },
+  "homepage": "https://github.com/nazirovdev/open-music-api#readme",
+  "devDependencies": {
+    "@hapi/hapi": "^20.1.5",
+    "nanoid": "^3.1.23",
+    "nodemon": "^2.0.9"
+  }
+}
