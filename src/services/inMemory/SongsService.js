@@ -8,13 +8,15 @@ class SongsService {
         this._songs = [];
     }
 
-    addSongs({ title, year, performer, genre, duration }) {
+    addSongs({
+        title, year, performer, genre, duration,
+    }) {
         const id = nanoid(16);
         const insertedAt = new Date().toISOString();
         const updatedAt = insertedAt;
 
         const newSongs = {
-            id, title, year, performer, genre, duration, insertedAt, updatedAt
+            id, title, year, performer, genre, duration, insertedAt, updatedAt,
         };
 
         this._songs.push(newSongs);
@@ -26,7 +28,7 @@ class SongsService {
         }
 
         return id;
-    };
+    }
 
     getSongs() {
         return this._songs;
@@ -42,7 +44,9 @@ class SongsService {
         return song;
     }
 
-    editSongById(id, { title, year, performer, genre, duration }) {
+    editSongById(id, {
+        title, year, performer, genre, duration,
+    }) {
         const index = this._songs.findIndex((song) => song.id === id);
 
         if (index === -1) {
@@ -55,8 +59,8 @@ class SongsService {
             performer,
             genre,
             duration,
-            updatedAt: new Date().toISOString()
-        }
+            updatedAt: new Date().toISOString(),
+        };
     }
 
     deleteSongById(id) {
