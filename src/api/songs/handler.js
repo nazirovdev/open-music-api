@@ -12,23 +12,19 @@ class SongsHandler {
         this.deleteSongByIdHandler = this.deleteSongByIdHandler.bind(this);
     }
 
-    postSongsHandler(request, h) {
+    async postSongsHandler(request, h) {
         try {
             this._validator.validateSongPayload(request.payload);
             const { title, year, performer, genre, duration } = request.payload;
-            const songId = this._service.addSongs({ title, year, performer, genre, duration });
+            const songId = await this._service.addSongs({ title, year, performer, genre, duration });
             return h.response({
                 status: 'success',
-                message: 'song berhasil disimpan',
+                message: 'Lagu berhasil ditambahkan',
                 data: {
                     songId
                 }
             }).code(201);
         }catch (error) {
-            // return h.response({
-            //     status: 'fail',
-            //     message: 'song gagal disimpan',
-            // }).code(404);
             if (error instanceof ClientError) {
                 return h.response({
                     status: 'fail',
@@ -42,9 +38,9 @@ class SongsHandler {
         }
     }
 
-    getSongsHandler(request, h) {
+    async getSongsHandler(request, h) {
         try {
-            const songs = this._service.getSongs();
+            const songs = await this._service.getSongs();
             return h.response({
                 status: 'success',
                 data: {
@@ -69,10 +65,10 @@ class SongsHandler {
         }
     }
 
-    getSongByIdHandler(request, h) {
+    async getSongByIdHandler(request, h) {
         try {
             const { id } = request.params;
-            const song = this._service.getSongById(id);
+            const song = await this._service.getSongById(id);
             return h.response({
                 status: 'success',
                 data: {
@@ -102,15 +98,15 @@ class SongsHandler {
         }
     }
 
-    putSongByIdHandler(request, h) {
+    async putSongByIdHandler(request, h) {
         try {
             this._validator.validateSongPayload(request.payload);
             const { id } = request.params;
             const { title, year, performer, genre, duration } = request.payload;
-            this._service.editSongById(id, { title, year, performer, genre, duration });
+            await this._service.editSongById(id, { title, year, performer, genre, duration });
             return h.response({
                 status: 'success',
-                message: 'song berhasil diupdate'
+                message: 'lagu berhasil diperbarui'
             }).code(200);
         }catch (error) {
             if (error instanceof ClientError) {
@@ -126,13 +122,13 @@ class SongsHandler {
         }
     }
 
-    deleteSongByIdHandler(request, h) {
+    async deleteSongByIdHandler(request, h) {
         try {
             const {id} = request.params;
-            this._service.deleteSongById(id);
+            await this._service.deleteSongById(id);
             return h.response({
                 status: 'success',
-                message: 'song berhasil dihapus'
+                message: 'lagu berhasil dihapus'
             }).code(200);
         }catch (error) {
             if (error instanceof ClientError) {
