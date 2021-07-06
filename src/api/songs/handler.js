@@ -1,6 +1,10 @@
+const ClientError = require('../../exceptions/ClientError');
+
 class SongsHandler {
-    constructor(service) {
+    constructor(service, validator) {
         this._service = service;
+        this._validator = validator;
+
         this.postSongsHandler = this.postSongsHandler.bind(this);
         this.getSongsHandler = this.getSongsHandler.bind(this);
         this.getSongByIdHandler = this.getSongByIdHandler.bind(this);
@@ -10,6 +14,7 @@ class SongsHandler {
 
     postSongsHandler(request, h) {
         try {
+            this._validator.validateSongPayload(request.payload);
             const { title, year, performer, genre, duration } = request.payload;
             const songId = this._service.addSongs({ title, year, performer, genre, duration });
             return h.response({
@@ -20,10 +25,20 @@ class SongsHandler {
                 }
             }).code(201);
         }catch (error) {
+            // return h.response({
+            //     status: 'fail',
+            //     message: 'song gagal disimpan',
+            // }).code(404);
+            if (error instanceof ClientError) {
+                return h.response({
+                    status: 'fail',
+                    message: error.message
+                }).code(error.statusCode);
+            }
             return h.response({
-                status: 'fail',
-                message: 'song gagal disimpan',
-            }).code(404);
+                status: 'error',
+                message: 'Maaf, terjadi kegagalan pada server kami.'
+            }).code(500);
         }
     }
 
@@ -41,10 +56,16 @@ class SongsHandler {
                 }
             }).code(200);
         }catch (error) {
+            if (error instanceof ClientError) {
+                return h.response({
+                    status: 'fail',
+                    message: error.message
+                }).code(error.statusCode);
+            }
             return h.response({
-                status: 'success',
-                message: error.message
-            }).code(404);
+                status: 'error',
+                message: 'Maaf, terjadi kegagalan pada server kami.'
+            }).code(500);
         }
     }
 
@@ -68,15 +89,22 @@ class SongsHandler {
                 }
             }).code(200);
         }catch (error) {
+            if (error instanceof ClientError) {
+                return h.response({
+                    status: 'fail',
+                    message: error.message
+                }).code(error.statusCode);
+            }
             return h.response({
-                status: 'fail',
-                message: 'song tidak ada'
-            }).code(404);
+                status: 'error',
+                message: 'Maaf, terjadi kegagalan pada server kami.'
+            }).code(500);
         }
     }
 
     putSongByIdHandler(request, h) {
         try {
+            this._validator.validateSongPayload(request.payload);
             const { id } = request.params;
             const { title, year, performer, genre, duration } = request.payload;
             this._service.editSongById(id, { title, year, performer, genre, duration });
@@ -85,10 +113,16 @@ class SongsHandler {
                 message: 'song berhasil diupdate'
             }).code(200);
         }catch (error) {
+            if (error instanceof ClientError) {
+                return h.response({
+                    status: 'fail',
+                    message: error.message
+                }).code(error.statusCode);
+            }
             return h.response({
-                status: 'fail',
-                message: error.message
-            }).code(404);
+                status: 'error',
+                message: 'Maaf, terjadi kegagalan pada server kami.'
+            }).code(500);
         }
     }
 
@@ -101,10 +135,16 @@ class SongsHandler {
                 message: 'song berhasil dihapus'
             }).code(200);
         }catch (error) {
+            if (error instanceof ClientError) {
+                return h.response({
+                    status: 'fail',
+                    message: error.message
+                }).code(error.statusCode);
+            }
             return h.response({
-                status: 'fail',
-                message: 'lagu berhasil dihapus'
-            }).code(404);
+                status: 'error',
+                message: 'Maaf, terjadi kegagalan pada server kami.'
+            }).code(500);
         }
     }
 }
