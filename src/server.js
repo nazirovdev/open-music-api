@@ -1,4 +1,5 @@
 require('dotenv').config();
+const ClientError = require('./exceptions/ClientError');
 
 const Hapi = require('@hapi/hapi');
 const songs = require('./api/songs');
@@ -23,6 +24,20 @@ const init = async () => {
             service: songService,
             validator: SongsValidator,
         },
+    });
+
+    server.ext('onPreResponse', (request, h) => {
+        const { response } = request;
+
+        if (response instanceof ClientError) {
+            const newResponse = h.response({
+                status: 'fail',
+                message: response.message
+            });
+            newResponse.code(response.statusCode);
+            return newResponse;
+        }
+        return response.continue || response;
     });
 
     await server.start();
