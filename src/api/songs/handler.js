@@ -37,7 +37,7 @@ class SongsHandler {
                 songs: songs.map((song) => ({
                     id: song.id,
                     title: song.title,
-                    performer: song.performer
+                    performer: song.performer,
                 })),
             },
         }).code(200);
@@ -49,7 +49,7 @@ class SongsHandler {
         return h.response({
             status: 'success',
             data: {
-                song: mapSongById(song)
+                song: mapSongById(song),
             },
         }).code(200);
     }

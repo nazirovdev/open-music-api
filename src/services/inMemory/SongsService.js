@@ -15,7 +15,7 @@ class SongsService {
         const insertedAt = new Date().toISOString();
 
         const newSongs = {
-            id, title, year, performer, genre, duration, insertedAt, updatedAt:insertedAt
+            id, title, year, performer, genre, duration, insertedAt, updatedAt: insertedAt,
         };
 
         this._songs.push(newSongs);

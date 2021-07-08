@@ -7,8 +7,8 @@ const mapSongById = (song) => (
         genre: song.genre,
         duration: parseInt(song.duration),
         insertedAt: song.insertedAt,
-        updatedAt: song.updatedAt
+        updatedAt: song.updatedAt,
     }
 );
 
-module.exports = {mapSongById};
+module.exports = { mapSongById };
