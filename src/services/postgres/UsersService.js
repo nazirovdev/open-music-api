@@ -29,6 +29,21 @@ class UsersService {
         return result.rows[0].id;
     }
 
+    async getUserById(idUser) {
+        const query = {
+            text: 'SELECT id, username, fullname FROM users WHERE id=$1',
+            values: [idUser],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (!result.rows.length) {
+            throw new NotFoundError('User tidak ditemukan');
+        }
+
+        return result.rows[0];
+    }
+
     async verifyNewUsername(username) {
         const query = {
             text: 'SELECT username FROM users WHERE username = $1',

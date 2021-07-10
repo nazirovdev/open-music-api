@@ -4,6 +4,7 @@ class UsersHandler {
         this._validator = validator;
 
         this.postUserHandler = this.postUserHandler.bind(this);
+        this.getUserByIdHandler = this.getUserByIdHandler.bind(this);
     }
 
     async postUserHandler(request, h) {
@@ -19,6 +20,18 @@ class UsersHandler {
                 userId
             }
         }).code(201);
+    }
+
+    async getUserByIdHandler(request, h) {
+        const { id } = request.params;
+        const user = await this._service.getUserById(id);
+
+        return h.response({
+            status: 'success',
+            data: {
+                user,
+            }
+        })
     }
 }
 
