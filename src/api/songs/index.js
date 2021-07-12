@@ -1,11 +1,11 @@
 const routes = require('./routes');
-const SongHandler = require('./handler');
+const SongsHandler = require('./handler');
 
 module.exports = {
     name: 'Open Song API',
     version: '1.0.0',
     register: async (server, { service, validator }) => {
-        const songHandler = new SongHandler(service, validator);
-        server.route(routes(songHandler));
+        const songsHandler = new SongsHandler(service, validator);
+        server.route(routes(songsHandler));
     },
 };

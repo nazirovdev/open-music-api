@@ -4,17 +4,24 @@ const ClientError = require('./exceptions/ClientError');
 
 //songs
 const songs = require('./api/songs');
-const SongService = require('./services/inMemory/SongsService');
+const SongsService = require('./services/inMemory/SongsService');
 const SongsValidator = require('./validator/songs');
 
 //users
 const users = require('./api/users');
-const UserService = require('./services/postgres/UsersService');
+const UsersService = require('./services/postgres/UsersService');
 const UsersValidator = require('./validator/users');
 
+//authentications
+const authentications = require('./api/authentications');
+const AuthenticationsService = require('./services/postgres/Authentications');
+const TokenManager = require('./tokenize/TokenManager');
+const AuthenticationsValidator = require('./validator/authentications');
+
 const init = async () => {
-    const songService = new SongService();
-    const userService = new UserService();
+    const songsService = new SongsService();
+    const usersService = new UsersService();
+    const authenticationsService = new AuthenticationsService();
 
     const server = Hapi.server({
         port: process.env.PORT,
@@ -30,17 +37,26 @@ const init = async () => {
         {
             plugin: songs,
             options: {
-                service: songService,
+                service: songsService,
                 validator: SongsValidator,
             },
         },
         {
             plugin: users,
             options: {
-                service: userService,
+                service: usersService,
                 validator: UsersValidator,
             },
         },
+        {
+            plugin: authentications,
+            options: {
+                authenticationsService,
+                usersService,
+                tokenManager: TokenManager,
+                validator: AuthenticationsValidator,
+            }
+        }
     ]);
 
     server.ext('onPreResponse', (request, h) => {
