@@ -31,8 +31,28 @@ class PlaylistSongsService {
 
         const result = await this._pool.query(query);
 
-        return result;
+        return result.rows;
     };
+
+    async getPlaylistSongByUser(playlistId, owner) {
+        const query = {
+            text: `
+                SELECT playlist_songs.id, songs.title, songs.performer, playlists.id, playlists.owner
+                FROM playlist_songs
+                INNER JOIN songs ON playlist_songs.song_id = songs.id
+                INNER JOIN playlists ON playlist_songs.playlist_id = playlists.id
+                WHERE playlists.id = $1 AND playlists.owner = $2
+            `,
+            values: [playlistId, owner],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (result.rows.length < 1) {
+            throw new AuthorizationError('Anda tidak berhak mengakses fitur ini');
+        }
+        return result.rows
+    }
 }
 
 module.exports = PlaylistSongsService;
