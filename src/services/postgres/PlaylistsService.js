@@ -30,10 +30,11 @@ class PlaylistsService {
     async getAllPlaylistByOwner(owner) {
         const query = {
             text: `
-                SELECT playlists.id, playlists.name, users.username
-                FROM playlists
-                INNER JOIN users ON playlists.owner = users.id
-                WHERE playlists.owner = $1
+                  SELECT p.id, p.name, users.username 
+                  FROM (SELECT playlists.* FROM playlists
+                  LEFT JOIN collaborations ON collaborations.playlist_id = playlists.id
+                  WHERE playlists.owner = $1 OR collaborations.user_id = $1
+                  GROUP BY playlists.id) p LEFT JOIN users ON users.id = p.owner
             `,
             values: [owner],
         };
@@ -102,30 +103,20 @@ class PlaylistsService {
         if (result.rowCount < 1) {
             throw new NotFoundError('Data tidak ada');
         }
-
         return result.rows;
     }
 
     async deleteAllSongToPlaylistByOwner(playlistId, songId) {
-        const query = {
-            text: `
-                SELECT * FROM playlistsongs WHERE song_id = $1
-            `,
-            values: [songId],
-        };
-
-        const result = await this._pool.query(query);
-
-        if (result.rowCount < 1) {
-            throw new InvariantError('Data tidak ada');
-        }
-
         const queryDelete = {
-            text: 'DELETE FROM playlistsongs WHERE playlist_id = $1 AND song_id = $2',
+            text: 'DELETE FROM playlistsongs WHERE playlist_id = $1 AND song_id = $2 RETURNING id',
             values: [playlistId, songId],
         };
 
-        return await this._pool.query(queryDelete);
+        const result = await this._pool.query(queryDelete);
+
+        if (!result.rows.length) {
+            throw new InvariantError('Lagu gagal dihapus dari playlist. Id lagu tidak ditemukan');
+        }
     }
 
     async verifyPlaylistAccess(playlistId, userId) {
@@ -138,8 +129,8 @@ class PlaylistsService {
 
             try {
                 await this._collaborationsService.verifyCollaborator(playlistId, userId);
-            }catch (error) {
-                throw new AuthorizationError('anda tidak berhak mengakses');
+            }catch(error) {
+                throw new AuthorizationError('anda tidak memiliki akses ini');
             }
         }
     }

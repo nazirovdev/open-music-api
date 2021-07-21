@@ -44,8 +44,7 @@ class PlaylistsHandler {
         const { id: playlistId } = request.params;
         const { id: credentialsId } = request.auth.credentials;
 
-        // await this._service.verifyPlaylistsOwner(playlistId, credentialsId);
-        await this._service.verifyPlaylistAccess(playlistId, credentialsId);
+        await this._service.verifyPlaylistsOwner(playlistId, credentialsId);
         await this._service.deletePlaylistByOwner(playlistId, credentialsId);
 
         return h.response({
@@ -94,7 +93,8 @@ class PlaylistsHandler {
 
         const { id: credentialsId } = request.auth.credentials;
 
-        await this._service.verifyPlaylistsOwner(playlistId, credentialsId);
+        // await this._service.verifyPlaylistsOwner(playlistId, credentialsId);
+        await this._service.verifyPlaylistAccess(playlistId, credentialsId);
         await this._service.deleteAllSongToPlaylistByOwner(playlistId, songId);
 
         return h.response({
