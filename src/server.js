@@ -15,26 +15,20 @@ const UsersValidator = require('./validator/users');
 
 //authentications
 const authentications = require('./api/authentications');
-const AuthenticationsService = require('./services/postgres/Authentications');
+const AuthenticationsService = require('./services/postgres/AuthenticationsService');
 const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
-//playlist
+//playlists
 const playlists = require('./api/playlists');
 const PlaylistsService = require('./services/postgres/PlaylistsService');
 const PlaylistsValidator = require('./validator/playlists');
-
-//playlist song
-const playlistSong = require('./api/playlistSongs');
-const PlaylistSongService = require('./services/postgres/PlaylistSongsService');
-const PlaylistsSongValidator = require('./validator/playliastsongs');
 
 const init = async () => {
     const songsService = new SongsService();
     const usersService = new UsersService();
     const authenticationsService = new AuthenticationsService();
     const playlistsService = new PlaylistsService();
-    const playlistSongService = new PlaylistSongService();
 
     const server = Hapi.server({
         port: process.env.PORT,
@@ -52,7 +46,7 @@ const init = async () => {
         }
     ]);
 
-    server.auth.strategy('songs_app_jwt', 'jwt', {
+    server.auth.strategy('songsapp_jwt', 'jwt', {
         keys: process.env.ACCESS_TOKEN_KEY,
         verify: {
             aud: false,
@@ -96,16 +90,9 @@ const init = async () => {
             plugin: playlists,
             options: {
                 service: playlistsService,
-                validator: PlaylistsValidator,
-            },
+                validator: PlaylistsValidator
+            }
         },
-        {
-            plugin: playlistSong,
-            options: {
-                service: playlistSongService,
-                validator: PlaylistsSongValidator,
-            },
-        }
     ]);
 
     server.ext('onPreResponse', (request, h) => {
