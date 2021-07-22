@@ -14,7 +14,7 @@ class UsersService {
         const hashPassword = await bcrypt.hash(password, 10);
 
         const newUsers = {
-            id, username, hashPassword, fullname
+            id, username, hashPassword, fullname,
         };
 
         const userIsExist = this._users.some((user) => user.username === username);

@@ -8,7 +8,7 @@ const CollaborationsValidator = {
         if (validationError.error) {
             throw new InvariantError(validationError.error.message);
         }
-    }
+    },
 };
 
 module.exports = CollaborationsValidator;

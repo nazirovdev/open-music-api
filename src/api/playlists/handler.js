@@ -23,8 +23,8 @@ class PlaylistsHandler {
             status: 'success',
             message: 'Playlists berhasil disimpan',
             data: {
-                playlistId
-            }
+                playlistId,
+            },
         }).code(201);
     }
 
@@ -35,8 +35,8 @@ class PlaylistsHandler {
         return h.response({
             status: 'success',
             data: {
-                playlists
-            }
+                playlists,
+            },
         }).code(200);
     }
 
@@ -49,8 +49,8 @@ class PlaylistsHandler {
 
         return h.response({
             status: 'success',
-            message: 'playlist berhasil dihapus'
-        })
+            message: 'playlist berhasil dihapus',
+        });
     }
 
     async PostSongToPlaylistByOwnerHandler(request, h) {
@@ -67,7 +67,7 @@ class PlaylistsHandler {
 
         return h.response({
             status: 'success',
-            message: 'playlist song berhasi ditambahkan'
+            message: 'playlist song berhasi ditambahkan',
         }).code(201);
     }
 
@@ -82,8 +82,8 @@ class PlaylistsHandler {
         return h.response({
             status: 'success',
             data: {
-                songs
-            }
+                songs,
+            },
         }).code(200);
     }
 
@@ -99,7 +99,7 @@ class PlaylistsHandler {
 
         return h.response({
             status: 'success',
-            message: 'song playlist berhasil dihapus'
+            message: 'song playlist berhasil dihapus',
         }).code(200);
     }
 }

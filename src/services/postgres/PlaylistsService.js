@@ -7,7 +7,7 @@ const AuthorizationError = require('../../exceptions/AuthorizationError');
 class PlaylistsService {
     constructor(collaborationsService) {
         this._pool = new Pool();
-        this._collaborationsService = collaborationsService
+        this._collaborationsService = collaborationsService;
     }
 
     async addPlaylist(name, owner) {
@@ -40,10 +40,6 @@ class PlaylistsService {
         };
 
         const result = await this._pool.query(query);
-
-        // if (result.rowCount < 1) {
-        //     throw new NotFoundError('Playlist tidak ada');
-        // }
 
         return result.rows;
     }
@@ -129,7 +125,7 @@ class PlaylistsService {
 
             try {
                 await this._collaborationsService.verifyCollaborator(playlistId, userId);
-            }catch(error) {
+            } catch (error) {
                 throw new AuthorizationError('anda tidak memiliki akses ini');
             }
         }

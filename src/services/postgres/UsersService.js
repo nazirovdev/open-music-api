@@ -18,7 +18,7 @@ class UsersService {
 
         const query = {
             text: 'INSERT INTO users VALUES ($1, $2, $3, $4) RETURNING id',
-            values: [id, username, hashPassword, fullname]
+            values: [id, username, hashPassword, fullname],
         };
 
         const result = await this._pool.query(query);
@@ -48,7 +48,7 @@ class UsersService {
     async verifyNewUsername(username) {
         const query = {
             text: 'SELECT username FROM users WHERE username = $1',
-            values: [username]
+            values: [username],
         };
 
         const result = await this._pool.query(query);
@@ -70,7 +70,7 @@ class UsersService {
             throw new AuthenticationError('Kredensial yang anda berikan salah');
         }
 
-        const {id, password: hashedPassword} = result.rows[0];
+        const { id, password: hashedPassword } = result.rows[0];
 
         const match = await bcrypt.compare(password, hashedPassword);
 

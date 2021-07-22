@@ -27,7 +27,7 @@ class AuthenticationsHandler {
             data: {
                 accessToken,
                 refreshToken,
-            }
+            },
         }).code(201);
     }
 
@@ -44,8 +44,8 @@ class AuthenticationsHandler {
             message: 'Access Token berhasil diperbaharui',
             data: {
                 accessToken,
-            }
-        }
+            },
+        };
     }
 
     async deleteAuthenticationHandler(request, h) {
@@ -57,8 +57,8 @@ class AuthenticationsHandler {
 
         return {
             status: 'success',
-            message: 'Refresh Token berhasil dihapus'
-        }
+            message: 'Refresh Token berhasil dihapus',
+        };
     }
 }
 

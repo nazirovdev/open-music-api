@@ -20,8 +20,8 @@ class CollaborationsHandler {
             status: 'success',
             message: 'kolaborasi berhasil ditambahkan',
             data: {
-                collaborationId
-            }
+                collaborationId,
+            },
         }).code(201);
     }
 
@@ -35,7 +35,7 @@ class CollaborationsHandler {
 
         return h.response({
             status: 'success',
-            message: 'kolaborasi berhasil dihapus'
+            message: 'kolaborasi berhasil dihapus',
         }).code(200);
     }
 }

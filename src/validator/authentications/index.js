@@ -1,5 +1,5 @@
 const {
-    PostAuthenticationSchema, PutAuthenticationSchema, DeleteAuthenticationSchema
+    PostAuthenticationSchema, PutAuthenticationSchema, DeleteAuthenticationSchema,
 } = require('./schema');
 
 const InvariantError = require('../../exceptions/InvariantError');
@@ -27,7 +27,7 @@ const AuthenticationsValidator = {
         if (validationError.error) {
             throw new InvariantError(validationError.error.message);
         }
-    }
+    },
 };
 
 module.exports = AuthenticationsValidator;

@@ -14,7 +14,7 @@ const routes = (handler) => [
         options: {
             auth: 'songsapp_jwt',
         },
-    }
+    },
 ];
 
 module.exports = routes;

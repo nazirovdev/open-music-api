@@ -3,28 +3,28 @@ const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
 const ClientError = require('./exceptions/ClientError');
 
-//songs
+// songs
 const songs = require('./api/songs');
 const SongsService = require('./services/postgres/SongsService');
 const SongsValidator = require('./validator/songs');
 
-//users
+// users
 const users = require('./api/users');
 const UsersService = require('./services/postgres/UsersService');
 const UsersValidator = require('./validator/users');
 
-//authentications
+// authentications
 const authentications = require('./api/authentications');
 const AuthenticationsService = require('./services/postgres/AuthenticationsService');
 const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
-//playlists
+// playlists
 const playlists = require('./api/playlists');
 const PlaylistsService = require('./services/postgres/PlaylistsService');
 const PlaylistsValidator = require('./validator/playlists');
 
-//collaborations
+// collaborations
 const collaborations = require('./api/collaborations');
 const CollaborationsService = require('./services/postgres/CollaborationsService');
 const CollaborationsValidator = require('./validator/collaborations');
@@ -49,7 +49,7 @@ const init = async () => {
     await server.register([
         {
             plugin: Jwt,
-        }
+        },
     ]);
 
     server.auth.strategy('songsapp_jwt', 'jwt', {
@@ -90,23 +90,23 @@ const init = async () => {
                 usersService,
                 tokenManager: TokenManager,
                 validator: AuthenticationsValidator,
-            }
+            },
         },
         {
             plugin: playlists,
             options: {
                 service: playlistsService,
-                validator: PlaylistsValidator
-            }
+                validator: PlaylistsValidator,
+            },
         },
         {
             plugin: collaborations,
             options: {
                 collaborationsService,
                 playlistsService,
-                validator: CollaborationsValidator
-            }
-        }
+                validator: CollaborationsValidator,
+            },
+        },
     ]);
 
     server.ext('onPreResponse', (request, h) => {

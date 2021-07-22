@@ -10,7 +10,7 @@ const TokenManager = {
             Jwt.token.verifySignature(artifacts, process.env.REFRESH_TOKEN_KEY);
             const { payload } = artifacts.decoded;
             return payload;
-        }catch (error) {
+        } catch (error) {
             throw new InvariantError('Refresh Token tidak valid');
         }
     },

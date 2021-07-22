@@ -1,17 +1,17 @@
-exports.up = pgm => {
+exports.up = (pgm) => {
     pgm.createTable('collaborations', {
         id: {
             type: 'VARCHAR(50)',
-            primaryKey: true
+            primaryKey: true,
         },
         playlist_id: {
             type: 'VARCHAR(50)',
-            notNull: true
+            notNull: true,
         },
         user_id: {
             type: 'VARCHAR(50)',
-            notNull: true
-        }
+            notNull: true,
+        },
     });
 
     pgm.addConstraint('collaborations', 'unique_playlistId_userId', 'UNIQUE(playlist_id, user_id)');
@@ -20,6 +20,6 @@ exports.up = pgm => {
     pgm.addConstraint('collaborations', 'fk_user_id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
-exports.down = pgm => {
+exports.down = (pgm) => {
     pgm.dropTable('collaborations');
 };

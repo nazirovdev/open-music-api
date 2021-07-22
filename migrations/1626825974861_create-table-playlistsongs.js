@@ -1,25 +1,25 @@
-exports.up = pgm => {
+exports.up = (pgm) => {
     pgm.createTable('playlistsongs', {
         id: {
             type: 'VARCHAR(50)',
-            primaryKey: true
+            primaryKey: true,
         },
 
         playlist_id: {
             type: 'VARCHAR(50)',
-            notNull: true
+            notNull: true,
         },
 
         song_id: {
             type: 'VARCHAR(50)',
-            notNull: true
-        }
+            notNull: true,
+        },
     });
 
     pgm.addConstraint('playlistsongs', 'fk_playlist_id', 'FOREIGN KEY(playlist_id) REFERENCES playlists(id) ON DELETE CASCADE');
     pgm.addConstraint('playlistsongs', 'fk_song_id', 'FOREIGN KEY(song_id) REFERENCES songs(id) ON DELETE CASCADE');
 };
 
-exports.down = pgm => {
+exports.down = (pgm) => {
     pgm.dropTable('playlistsongs');
 };

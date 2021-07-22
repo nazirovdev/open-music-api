@@ -17,8 +17,8 @@ class UsersHandler {
             status: 'success',
             message: 'User berhasil ditambahkan',
             data: {
-                userId
-            }
+                userId,
+            },
         }).code(201);
     }
 
@@ -30,8 +30,8 @@ class UsersHandler {
             status: 'success',
             data: {
                 user,
-            }
-        })
+            },
+        });
     }
 }
 
