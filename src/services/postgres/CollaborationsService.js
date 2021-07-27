@@ -18,7 +18,7 @@ class CollaborationsService {
 
         const result = await this._pool.query(query);
 
-        if (result.rowCount < 1) {
+        if (!result.rowCount) {
             throw new InvariantError('kolaborasi gagal ditambah');
         }
 

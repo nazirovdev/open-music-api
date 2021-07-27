@@ -33,7 +33,7 @@ class PlaylistsService {
         try {
             const result = await this._cacheService.get(`playlists: ${owner}`);
             return JSON.parse(result);
-        }catch(error) {
+        } catch (error) {
             const query = {
                 text: `
                       SELECT p.id, p.name, users.username 
@@ -44,7 +44,7 @@ class PlaylistsService {
                 `,
                 values: [owner],
             };
-    
+
             const result = await this._pool.query(query);
             const playlists = result.rows;
 

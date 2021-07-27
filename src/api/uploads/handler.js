@@ -16,7 +16,7 @@ class UploadsHandler {
             status: 'success',
             data: {
                 pictureUrl: `http://${process.env.HOST}:${process.env.PORT}/upload/images/${filename}`,
-            }
+            },
         }).code(201);
     }
 }

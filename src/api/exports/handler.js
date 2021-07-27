@@ -24,7 +24,7 @@ class ExportsHandler {
 
         return h.response({
             status: 'success',
-            message: 'Permintaan anda dalam antrean'
+            message: 'Permintaan anda dalam antrean',
         }).code(201);
     }
 }

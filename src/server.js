@@ -70,7 +70,7 @@ const init = async () => {
         },
         {
             plugin: Inert,
-        }
+        },
     ]);
 
     server.auth.strategy('songsapp_jwt', 'jwt', {
@@ -132,16 +132,16 @@ const init = async () => {
             plugin: _exports,
             options: {
                 service: producerService,
-                validator: ExportsValidator
-            }
+                validator: ExportsValidator,
+            },
         },
         {
             plugin: uploads,
             options: {
                 service: storageService,
                 validator: UploadsValidator,
-            }
-        }
+            },
+        },
     ]);
 
     server.ext('onPreResponse', (request, h) => {

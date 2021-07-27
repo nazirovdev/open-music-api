@@ -1,23 +1,6 @@
 const amqp = require('amqplib');
-const { Pool }  = require('pg');
+const { Pool } = require('pg');
 const AuthorizationError = require('../../exceptions/AuthorizationError');
-
-// const ProducerService = {
-//     sendMessages: async (queue, message) => {
-//         const connection = await amqp.connect(process.env.RABBITMQ_SERVER);
-//         const channel = await connection.createChannel();
-//
-//         await channel.assertQueue(queue, {
-//             durable: true,
-//         });
-//
-//         await channel.sendToQueue(queue, Buffer.from(message));
-//
-//         setTimeout(() => {
-//             connection.close();
-//         }, 1000)
-//     },
-// };
 
 class ProducerService {
     constructor() {
@@ -36,7 +19,7 @@ class ProducerService {
 
         setTimeout(() => {
             connection.close();
-        }, 1000)
+        }, 1000);
     }
 
     async verifyExportPlaylistOwner(playlistId, owner) {

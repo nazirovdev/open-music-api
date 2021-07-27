@@ -20,6 +20,7 @@
         "import/no-extraneous-dependencies": "off",
         "no-return-await": "off",
         "max-len": "off",
-        "new-cap": "off"
+        "new-cap": "off",
+        "class-methods-use-this": "off"
     }
 }
